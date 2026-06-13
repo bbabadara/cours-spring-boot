@@ -1,6 +1,3 @@
-import DomUtils from '../utils/dom.js';
-import { MODULES } from '../data/modules.js';
-
 class Navigation {
   constructor(router) {
     this.router = router;
@@ -10,12 +7,13 @@ class Navigation {
   }
 
   render() {
-    const nav = DomUtils.$('nav');
+    const SB = window.SB;
+    const nav = SB.DomUtils.$('nav');
     if (!nav) {
       console.warn('[Navigation] <nav> introuvable dans le DOM');
       return;
     }
-    const linksHtml = MODULES.map(m => `
+    const linksHtml = SB.MODULES.map(m => `
       <a href="#/module/${m.id}" class="nav-link text-gray-300 hover:text-white hover:bg-white/10 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200" data-nav="${m.id}">
         <span class="mr-1">${m.icon}</span>
         ${m.title.split(' ').slice(0, 3).join(' ')}...
@@ -46,7 +44,7 @@ class Navigation {
 
       <div id="mobile-menu" class="hidden md:hidden bg-gray-800 border-t border-gray-700">
         <div class="px-2 pt-2 pb-3 space-y-1">
-          ${MODULES.map(m => `
+          ${SB.MODULES.map(m => `
             <a href="#/module/${m.id}" class="nav-link block text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium" data-nav="${m.id}">
               ${m.icon} ${m.title}
             </a>
@@ -57,8 +55,8 @@ class Navigation {
   }
 
   bindEvents() {
-    const toggle = DomUtils.$('#menu-toggle');
-    const mobileMenu = DomUtils.$('#mobile-menu');
+    const toggle = SB.DomUtils.$('#menu-toggle');
+    const mobileMenu = SB.DomUtils.$('#mobile-menu');
 
     if (toggle) {
       toggle.addEventListener('click', () => {
@@ -67,7 +65,7 @@ class Navigation {
       });
     }
 
-    DomUtils.$$('.nav-link').forEach(link => {
+    SB.DomUtils.$$('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
         if (this.menuOpen) {
           this.menuOpen = false;
@@ -82,7 +80,7 @@ class Navigation {
 
   updateActive() {
     const hash = window.location.hash;
-    DomUtils.$$('.nav-link').forEach(link => {
+    SB.DomUtils.$$('.nav-link').forEach(link => {
       link.classList.toggle('active', link.getAttribute('href') === hash);
       link.classList.toggle('bg-white/10', link.getAttribute('href') === hash);
       link.classList.toggle('text-white', link.getAttribute('href') === hash);
@@ -90,4 +88,5 @@ class Navigation {
   }
 }
 
-export default Navigation;
+window.SB = window.SB || {};
+window.SB.Navigation = Navigation;

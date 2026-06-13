@@ -1,6 +1,3 @@
-import DomUtils from '../utils/dom.js';
-import { MODULES } from '../data/modules.js';
-
 class ModuleDetail {
   render(container, module) {
     container.innerHTML = `
@@ -146,6 +143,7 @@ class ModuleDetail {
   }
 
   renderPrevNext(module) {
+    const MODULES = window.SB.MODULES;
     const idx = MODULES.findIndex(m => m.id === module.id);
     const prev = idx > 0 ? MODULES[idx - 1] : null;
     const next = idx < MODULES.length - 1 ? MODULES[idx + 1] : null;
@@ -189,4 +187,5 @@ class ModuleDetail {
   }
 }
 
-export default ModuleDetail;
+window.SB = window.SB || {};
+window.SB.ModuleDetail = ModuleDetail;

@@ -1,5 +1,3 @@
-import DomUtils from '../utils/dom.js';
-
 class Hero {
   render(container) {
     container.innerHTML = `
@@ -101,4 +99,5 @@ class Hero {
   }
 }
 
-export default Hero;
+window.SB = window.SB || {};
+window.SB.Hero = Hero;

@@ -1,4 +1,4 @@
-export const MODULES = [
+const MODULES = [
   {
     id: 'module-1',
     number: 1,
@@ -873,3 +873,6 @@ public class ReflectionConfig {}
     ]
   }
 ];
+
+window.SB = window.SB || {};
+window.SB.MODULES = MODULES;

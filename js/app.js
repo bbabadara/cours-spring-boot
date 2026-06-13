@@ -1,23 +1,16 @@
-import Router from './router.js';
-import DomUtils from './utils/dom.js';
-import { MODULES } from './data/modules.js';
-import Navigation from './components/navigation.js';
-import Hero from './components/hero.js';
-import ModuleCard from './components/moduleCard.js';
-import ModuleDetail from './components/moduleDetail.js';
-
 class App {
   constructor() {
-    this.hero = new Hero();
-    this.moduleCard = new ModuleCard();
-    this.moduleDetail = new ModuleDetail();
+    const SB = window.SB;
+    this.hero = new SB.Hero();
+    this.moduleCard = new SB.ModuleCard();
+    this.moduleDetail = new SB.ModuleDetail();
     this.initRouter();
     this.initNavigation();
     this.router.start();
   }
 
   initRouter() {
-    this.router = new Router([], '#app');
+    this.router = new window.SB.Router([], '#app');
 
     this.router.register({
       path: '/',
@@ -36,11 +29,12 @@ class App {
   }
 
   initNavigation() {
-    this.nav = new Navigation(this.router);
+    this.nav = new window.SB.Navigation(this.router);
   }
 
   renderHome(outlet) {
-    DomUtils.empty(outlet);
+    const SB = window.SB;
+    SB.DomUtils.empty(outlet);
 
     const wrapper = document.createElement('div');
     this.hero.render(wrapper);
@@ -58,7 +52,7 @@ class App {
       </p>
     `;
     modulesSection.appendChild(title);
-    this.moduleCard.renderGrid(modulesSection, MODULES);
+    this.moduleCard.renderGrid(modulesSection, SB.MODULES);
     wrapper.appendChild(modulesSection);
 
     const footer = document.createElement('footer');
@@ -76,12 +70,13 @@ class App {
   }
 
   renderModule(outlet, params) {
-    const module = MODULES.find(m => m.id === params.id);
+    const SB = window.SB;
+    const module = SB.MODULES.find(m => m.id === params.id);
     if (!module) {
       this.router.navigate('/404');
       return;
     }
-    DomUtils.empty(outlet);
+    SB.DomUtils.empty(outlet);
     const wrapper = document.createElement('div');
     this.moduleDetail.render(wrapper, module);
 
@@ -101,7 +96,7 @@ class App {
   }
 
   renderNotFound(outlet) {
-    DomUtils.empty(outlet);
+    window.SB.DomUtils.empty(outlet);
     outlet.innerHTML = `
       <div class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
         <div class="text-center px-4">

@@ -30,4 +30,5 @@ const DomUtils = {
   }
 };
 
-export default DomUtils;
+window.SB = window.SB || {};
+window.SB.DomUtils = DomUtils;

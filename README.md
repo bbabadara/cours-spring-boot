@@ -34,23 +34,29 @@ js/
 
 ### Principes d'architecture
 
-- **SPA modulaire** : chaque fichier a une responsabilité unique, imports/exports ES6 natifs
+- **SPA modulaire** : chaque fichier a une responsabilité unique, partagé via le namespace `window.SB`
 - **Hash-based routing** : navigation sans rechargement (#/module/module-1, #/)
 - **Composants réutilisables** : `ModuleCard` accepte n'importe quel tableau de modules
 - **Données découplées** : le contenu (modules.js) est indépendant du rendu
-- **Pas de framework JS** : vanilla JS + Tailwind CSS (CDN), zéro dépendance
+- **Pas de dépendance** : vanilla JS + Tailwind CSS (CDN), zéro framework
 
 ### Flux de rendu
 
 ```
-DOMContentLoaded
-  → App() constructor
-    → initRouter()           → enregistre les routes (/, /module/:id, /404)
-    → initNavigation()       → construit la navbar dans <nav>
-    → router.start()         → lit le hash et déclenche le handler
-      → renderHome()         → Hero + grille de modules
-      → renderModule(id)     → Détail complet d'un module
-      → renderNotFound()     → Page 404
+Chargement des scripts (ordre garanti)
+  → utils/dom.js       → window.SB.DomUtils
+  → data/modules.js    → window.SB.MODULES
+  → router.js          → window.SB.Router
+  → components/*.js    → window.SB.Navigation, .Hero, .ModuleCard, .ModuleDetail
+  → app.js             → App() constructor
+    → DOMContentLoaded
+      → new App()
+        → initRouter()        → enregistre les routes
+        → initNavigation()    → construit la navbar
+        → router.start()      → lit le hash (#/ ou #/module/:id)
+          → renderHome()      → Hero + grille de modules
+          → renderModule(id)  → Détail complet du module
+          → renderNotFound()  → Page 404
 ```
 
 ## Utilisation
@@ -65,6 +71,7 @@ python -m http.server 3000
 # 2. Ouvrir http://localhost:3000
 ```
 
-## Prérequis navigateur
+## Compatibilité
 
-Nécessite un navigateur supportant les ES modules (Chrome 61+, Firefox 60+, Safari 11+, Edge 16+).
+Fonctionne sur tous les navigateurs modernes (Chrome, Firefox, Safari, Edge).
+Aucun prérequis spécifique — les scripts sont chargés de manière standard.

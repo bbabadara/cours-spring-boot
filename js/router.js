@@ -54,4 +54,5 @@ class Router {
   }
 }
 
-export default Router;
+window.SB = window.SB || {};
+window.SB.Router = Router;
