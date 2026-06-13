@@ -86,12 +86,12 @@ debug: true
         ],
         code: `// application.yml — configuration complète
 server:
-  port: ${PORT:8080}
+  port: \${PORT:8080}
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:5432/mydb
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://\${DB_HOST}:5432/mydb
+    username: \${DB_USER}
+    password: \${DB_PASSWORD}
 
 ---
 spring:
@@ -712,7 +712,7 @@ public class CommandeService {
     <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeMdc>true</includeMdc>
-            <customFields>{"service":"commande-service","environment":"${ENV:-dev}"}</customFields>
+            <customFields>{"service":"commande-service","environment":"\${ENV:-dev}"}</customFields>
         </encoder>
     </appender>
 
