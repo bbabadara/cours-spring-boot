@@ -21,6 +21,7 @@ class Router {
 
   resolve() {
     const hash = this.getHash();
+    if (!hash.startsWith('/')) return;
     for (const route of this.routes) {
       const match = this.matchRoute(route.path, hash);
       if (match !== null) {
